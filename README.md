@@ -4,6 +4,7 @@
  	|  <  | '__|| | | || |/ /
  	| . \ | |   | |_| ||   < 
  	|_|\_\|_|    \__,_||_|\_\
-        CLI for CrUX
+    
+  CLI for CrUX
 
 **Kruk** is a command line tool for [CrUX REST API](https://developers.google.com/web/tools/chrome-user-experience-report/api/guides/getting-started)
