@@ -14,7 +14,7 @@
 	➜  kruk --help
 
 	--key                     CrUX API key (required) (https://developers.google.com/web/tools/chrome-user-experience-report/api/guides/getting-started#APIKey)
-	--urls                    one of more comma seperated urls  (required)
+	--urls                    one or more comma seperated urls  (required)
 	--formFactor              allowed values: ALL_FORM_FACTORS, DESKTOP, TABLET, PHONE (default)
 	--ect                     allowed values: offline, slow-2G, 2G, 3G, 4G
 	--checkOrigin             get CrUX data for origin instead of given url

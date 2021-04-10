@@ -49,7 +49,7 @@ if (!formFactorValues.includes(queryParams.formFactor)) {
 if (argv.help) {
   console.log(`
   ${'--key'.padEnd(25)} CrUX API key (required) (https://developers.google.com/web/tools/chrome-user-experience-report/api/guides/getting-started#APIKey)
-  ${'--urls'.padEnd(25)} one of more comma seperated urls  (required)
+  ${'--urls'.padEnd(25)} one or more comma seperated urls  (required)
   ${'--formFactor'.padEnd(25)} allowed values: ALL_FORM_FACTORS, DESKTOP, TABLET, PHONE (default)
   ${'--ect'.padEnd(25)} allowed values: offline, slow-2G, 2G, 3G, 4G
   ${'--checkOrigin'.padEnd(25)} get CrUX data for origin instead of given url
