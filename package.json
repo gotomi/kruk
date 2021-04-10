@@ -1,0 +1,41 @@
+{
+  "name": "kruk",
+  "version": "0.1.0",
+  "description": "Command Line Tool for CrUX Rest API",
+  "repository": "https://github.com/gotomi/kruk",
+  "main": "index.js",
+  "bin": {
+    "kruk": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "CrUX",
+    "CrUX API",
+    "Chrome User Experience Report",
+    "Chrome UX Report",
+    "CrUX Report",
+    "Core Web Vitals",
+    "Web Performance",
+    "FCP",
+    "LCP",
+    "FID",
+    "CLS",
+    "First Contentful Paint",
+    "Largest Contentful Paint",
+    "First Input Delay",
+    "Cumulative Layout Shift",
+    "webperf",
+    "perfmatters",
+    "metrics"
+  ],
+  "author": "gotomi",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "googleapis": "^57.0.0",
+    "minimist": "^1.2.5",
+    "prepend-http": "^3.0.1",
+    "table": "^6.0.7"
+  }
+}
