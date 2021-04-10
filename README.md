@@ -1,12 +1,12 @@
 # kruk - a command line tool for [CrUX REST API](https://developers.google.com/web/tools/chrome-user-experience-report/api/guides/getting-started)
 
 
-## Requirments
+## Requirements
 	
 - Current version of Node.js
 - Chrome UX Report Api Key: https://developers.google.com/web/tools/chrome-user-experience-report/api/guides/getting-started#APIKey
 
-## Instalation
+## Installation
 
 	npm install -g kruk
 

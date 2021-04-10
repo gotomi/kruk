@@ -1,6 +1,6 @@
 {
   "name": "kruk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Command Line Tool for CrUX Rest API",
   "repository": "https://github.com/gotomi/kruk",
   "main": "index.js",
@@ -26,7 +26,7 @@
     "Largest Contentful Paint",
     "First Input Delay",
     "Cumulative Layout Shift",
-    "webperf",
+    "webperformance",
     "perfmatters",
     "metrics"
   ],
