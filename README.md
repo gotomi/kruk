@@ -8,7 +8,7 @@
 
 ## Instalation
 
-	npm install -g
+	npm install -g kruk
 
 ## Usage
 	➜  kruk --help
