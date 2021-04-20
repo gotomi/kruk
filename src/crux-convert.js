@@ -38,7 +38,13 @@ function convertData(data) {
             const m = abbr(metric);
             if (typeof el.metrics[metric] !== 'undefined') {
                 const p75value = el.metrics[metric].percentiles.p75;
-                const histogram = el.metrics[metric].histogram.map(item => Math.round(item.density * 10000) / 100);
+                const histogram = el.metrics[metric].histogram.map(item => {
+                    if (item.density) {
+                        return Math.round(item.density * 10000) / 100
+                    } else {
+                        return 0
+                    }
+                });
 
                 const rank = metricRank(p75value, metric);
                 item[m] = {
