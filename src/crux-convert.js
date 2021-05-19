@@ -28,6 +28,9 @@ function convertData(data) {
     Object.keys(params).forEach(item => {
         if (item === 'url' || item === 'origin') params[item] = true;
     })
+
+    params.date = new Intl.DateTimeFormat('pl-PL', { year: 'numeric', month: 'numeric', day: 'numeric' }).format(new Date());
+
     const metrics = data.map(el => {
 
         const item = {
@@ -48,7 +51,7 @@ function convertData(data) {
 
                 const rank = metricRank(p75value, metric);
                 item[m] = {
-                    histogram: histogram,
+                    histogram: histogram,   
                     p75: p75value,
                     rank: rank
                 }
