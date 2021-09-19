@@ -56,7 +56,11 @@ function convertData(data) {
                     rank: rank
                 }
             } else {
-                item[m] = '-';
+                item[m] = {
+                    histogram: [],   
+                    p75: '-',
+                    rank: '-'
+                }
             }
         })
         return item
