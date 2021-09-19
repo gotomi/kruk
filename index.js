@@ -80,7 +80,7 @@ let urls;
 if (argv.urls) {
   urls = argv.urls.split(',').map(url => prependHttp(url));
 } else {
-  urls = getDataFromUrls(argv.file)
+  urls = getDataFromUrls(argv.file).map(url => prependHttp(url))
 }
 
 
