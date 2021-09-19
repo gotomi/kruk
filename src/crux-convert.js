@@ -1,11 +1,11 @@
 // metrics metadata 
 
 const metricsMeta = {
-    'cumulative_layout_shift': { range: [0.1, 0.25], abbr: " CLS" },
-    'first_contentful_paint': { range: [1800, 3000], abbr: " FCP" },
-    'first_input_delay': { range: [100, 300], abbr: " FID" },
-    'largest_contentful_paint': { range: [2500, 4000], abbr: " LCP" },
-    "experimental_uncapped_cumulative_layout_shift":{ range: [0.1, 0.25], abbr: "uCLS" },
+    'cumulative_layout_shift': { range: [0.1, 0.25], abbr: "CLS" },
+    'first_contentful_paint': { range: [1800, 3000], abbr: "FCP" },
+    'first_input_delay': { range: [100, 300], abbr: "FID" },
+    'largest_contentful_paint': { range: [2500, 4000], abbr: "LCP" },
+    // "experimental_uncapped_cumulative_layout_shift":{ range: [0.1, 0.25], abbr: "uCLS" },
 }
 
 function abbr(metric) {
@@ -23,8 +23,7 @@ function metricRank(value, metric) {
 }
 
 function convertData(data) {
-    const allMetrics = Object.keys(data[0].metrics);
-
+    const allMetrics = Object.keys(metricsMeta);
     const params = JSON.parse(JSON.stringify(data[0].key));
     Object.keys(params).forEach(item => {
         if (item === 'url' || item === 'origin') params[item] = true;
