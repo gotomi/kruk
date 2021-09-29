@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-const { getReports } = require('./src/crux');
-const { convertData } = require('./src/crux-convert');
-const { printTable, printDistribution, printCSV, printHeading } = require('./src/crux-output');
+const { getReports } = require('../src/crux');
+const { printTable, printDistribution, printCSV, printHeading } = require('../src/crux-output');
 
 const path = require('path');
 const prependHttp = require('prepend-http');
@@ -91,7 +90,7 @@ getReports(urls, API_KEY, queryParams).then(cruxData => {
     console.log(`There's no valid data`);
     return
   }
-  const data = convertData(cruxData);
+  const data = cruxData;
 
   if (argv.output === 'json') {
     console.log(JSON.stringify(data))

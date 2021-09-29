@@ -1,11 +1,11 @@
 {
   "name": "kruk",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Command Line Tool for CrUX Rest API",
   "repository": "https://github.com/gotomi/kruk",
-  "main": "index.js",
+  "main": "src/crux.js",
   "bin": {
-    "kruk": "./index.js"
+    "kruk": "./bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
