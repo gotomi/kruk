@@ -1,5 +1,5 @@
 const { google } = require('googleapis');
-const {convertData} = require('./crux-convert.js')
+const { convertData } = require('./crux-convert.js')
 
 async function runQuery(url, API_KEY, queryParams) {
 
@@ -31,8 +31,8 @@ function generateTasks(urls, API_KEY, queryParams) {
 
 async function getReports(urls, API_KEY, queryParams) {
     const tasks = generateTasks(urls, API_KEY, queryParams);
-    const data = await Promise.all([...tasks]);
-    return convertData(data.filter(item => !!item));
+    const data = (await Promise.all([...tasks])).filter(item => !!item);
+    return (data.length > 0) ? convertData(data) : [];
 }
 
 module.exports = { getReports }
