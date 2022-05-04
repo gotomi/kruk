@@ -49,7 +49,7 @@ function printDistribution(data) {
         item => Object.values(item)
         .map((it, i) => {
             if (typeof it === 'object') {
-                return bold(headings[i]) + '' + colorizeValue(it.p75, it.rank, 6) + drawDistribution(it.histogram)
+                return bold(headings[i].padStart(4)) + '' + colorizeValue(it.p75, it.rank, 6) + drawDistribution(it.histogram)
             } else { return '\n' + bold(it) + '\n' }
         }).join('')
     ).join('')
