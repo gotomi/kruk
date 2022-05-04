@@ -5,7 +5,7 @@ const metricsMeta = {
     'first_contentful_paint': { range: [1800, 3000], abbr: "FCP" },
     'first_input_delay': { range: [100, 300], abbr: "FID" },
     'largest_contentful_paint': { range: [2500, 4000], abbr: "LCP" },
-    // "experimental_uncapped_cumulative_layout_shift":{ range: [0.1, 0.25], abbr: "uCLS" },
+    'experimental_time_to_first_byte': { range: [800, 1800], abbr: "TTFB" }
 }
 
 function abbr(metric) {
