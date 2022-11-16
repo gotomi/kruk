@@ -1,6 +1,6 @@
 {
   "name": "kruk",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "Command Line Tool for CrUX Rest API",
   "repository": "https://github.com/gotomi/kruk",
   "main": "src/crux.js",
@@ -33,9 +33,9 @@
   "author": "gotomi",
   "license": "Apache-2.0",
   "dependencies": {
-    "googleapis": "^105.0.0",
-    "minimist": "^1.2.6",
+    "googleapis": "^109.0.1",
+    "minimist": "^1.2.7",
     "prepend-http": "3.0.1",
-    "table": "^6.8.0"
+    "table": "^6.8.1"
   }
 }
