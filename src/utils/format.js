@@ -12,7 +12,7 @@ function bold(value) {
     return `\u001b[1m${value} \u001b[0m`
 }
 
-module.exports = {
+export {
     green,
     red, 
     yellow,

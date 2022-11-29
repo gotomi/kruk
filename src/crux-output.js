@@ -1,5 +1,5 @@
-const { green, red, yellow, bold } = require('./utils/format')
-const { table } = require('table');
+import { green, red, yellow, bold } from './utils/format.js'
+import { table } from 'table';
 
 function drawDistribution(histogram) {
     function colorize(index, value) {
@@ -83,4 +83,4 @@ function printHeading(params) {
 
 
 
-module.exports = { printTable, printDistribution, printCSV, printHeading }
+export { printTable, printDistribution, printCSV, printHeading }
