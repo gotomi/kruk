@@ -73,4 +73,3 @@ export function convertData(data) {
   });
   return { params, metrics };
 }
-

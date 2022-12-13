@@ -1,6 +1,6 @@
 {
   "name": "kruk",
-  "version": "0.3.0beta1",
+  "version": "0.3.0beta",
   "description": "Command Line Tool for CrUX Rest API",
   "repository": "https://github.com/gotomi/kruk",
   "main": "src/crux.js",

@@ -30,14 +30,6 @@ function generateTasks(urls, API_KEY, queryParams) {
   );
   return tasks;
 }
-
-// async function getReports(urls, API_KEY, queryParams) {
-//     const tasks = generateTasks(urls, API_KEY, queryParams);
-//     const data = (await Promise.all([...tasks])).filter(item => !!item);
-//     return (data.length > 0) ? convertData(data) : [];
-// }
-
-// module.exports = { getReports }
 export async function getReports(urls, API_KEY, queryParams) {
   const tasks = generateTasks(urls, API_KEY, queryParams);
   const data = (await Promise.all([...tasks])).filter((item) => !!item);
