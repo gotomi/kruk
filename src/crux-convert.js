@@ -23,7 +23,7 @@ function metricRank(value, metric) {
   }
 }
 
-function convertData(data) {
+export function convertData(data) {
   const allMetrics = Object.keys(metricsMeta);
   const params = JSON.parse(JSON.stringify(data[0].key));
   params.collectionPeriod = data[0].collectionPeriod;
@@ -73,5 +73,3 @@ function convertData(data) {
   });
   return { params, metrics };
 }
-
-module.exports = { convertData };
