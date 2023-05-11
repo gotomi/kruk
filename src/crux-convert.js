@@ -6,7 +6,7 @@ const metricsMeta = {
   first_input_delay: { range: [100, 300], abbr: "FID" },
   largest_contentful_paint: { range: [2500, 4000], abbr: "LCP" },
   experimental_time_to_first_byte: { range: [800, 1800], abbr: "TTFB" },
-  experimental_interaction_to_next_paint: { range: [200, 500], abbr: "INP" },
+  interaction_to_next_paint: { range: [200, 500], abbr: "INP" },
 };
 
 function abbr(metric) {
