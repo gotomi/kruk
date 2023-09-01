@@ -1,6 +1,6 @@
 {
   "name": "kruk",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Command Line Tool for CrUX Rest API",
   "repository": "https://github.com/gotomi/kruk",
   "main": "src/crux.js",
@@ -9,7 +9,9 @@
     "kruk": "./bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ext \".ts,.js\" --ignore-path .gitignore .",
+    "lint:fix": "npm run lint -- --fix"
   },
   "keywords": [
     "CrUX",
@@ -34,9 +36,14 @@
   "author": "gotomi",
   "license": "Apache-2.0",
   "dependencies": {
-    "googleapis": "^118.0.0",
+    "googleapis": "^126.0.1",
     "minimist": "^1.2.8",
     "prepend-http": "4.0.0",
     "table": "^6.8.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0"
   }
 }
