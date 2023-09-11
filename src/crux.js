@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
 import { convertData } from './crux-convert.js';
 
-async function runQuery(url, API_KEY, queryParams) {
+export async function runQuery(url, API_KEY, queryParams) {
   const params = JSON.parse(JSON.stringify(queryParams));
 
   if (params.checkOrigin) {
@@ -16,6 +16,25 @@ async function runQuery(url, API_KEY, queryParams) {
     auth: API_KEY,
   });
   const res = await crux.records.queryRecord(params);
+
+  return res.data.record;
+}
+
+export async function runHistoryQuery(url, API_KEY, queryParams) {
+  const params = JSON.parse(JSON.stringify(queryParams));
+
+  if (!params.checkOrigin) {
+    params.origin = url;
+  } else {
+    params.url = url;
+  }
+  delete params.checkOrigin; // cleanup
+
+  const crux = google.chromeuxreport({
+    version: 'v1',
+    auth: API_KEY,
+  });
+  const res = await crux.records.queryHistoryRecord(params);
 
   return res.data.record;
 }

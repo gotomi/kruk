@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { getReports } from '../src/crux.js';
+import { getReports, runHistoryQuery } from '../src/crux.js';
 import { printTable, printDistribution, printCSV, printHeading } from '../src/crux-output.js';
 import process from 'node:process';
 import path from 'path';
@@ -22,21 +22,12 @@ function getDataFromUrls(file) {
 }
 
 const queryParams = {
-  effectiveConnectionType: argv.effectiveConnectionType || argv.ect || '',
   formFactor: argv.formFactor || 'PHONE',
   checkOrigin: argv.checkOrigin || false,
 };
 // input data validation
 const API_KEY = argv.key;
 const formFactorValues = ['ALL_FORM_FACTORS', 'PHONE', 'DESKTOP', 'TABLET'];
-const ectValues = ['offline', 'slow-2G', '2G', '3G', '4G'];
-
-if (queryParams.effectiveConnectionType !== '' && !ectValues.includes(queryParams.effectiveConnectionType)) {
-  console.log(
-    `parameter effectiveConnectionType should be one of allowed values:  ${ectValues.join(',')} or it can be skipped`,
-  );
-  process.exit();
-}
 
 if (!formFactorValues.includes(queryParams.formFactor)) {
   console.log(`parameter formFactor should be one of allowed values:  ${formFactorValues.join(',')}`);
@@ -50,7 +41,6 @@ if (argv.help) {
   )} CrUX API key (required) (https://developers.google.com/web/tools/chrome-user-experience-report/api/guides/getting-started#APIKey)
   ${'--urls'.padEnd(25)} one or more comma seperated urls  (required)
   ${'--formFactor'.padEnd(25)} allowed values: ALL_FORM_FACTORS, DESKTOP, TABLET, PHONE (default)
-  ${'--ect'.padEnd(25)} allowed values: offline, slow-2G, 2G, 3G, 4G
   ${'--checkOrigin'.padEnd(25)} get CrUX data for origin instead of given url
   ${'--output'.padEnd(25)} posible values: distribution, json, csv, table (default) 
 
@@ -87,24 +77,30 @@ if (argv.urls) {
 
 //output
 
-getReports(urls, API_KEY, queryParams).then((cruxData) => {
-  if (cruxData.length === 0) {
-    console.log(`There's no valid data`);
-    process.exitCode = 0;
-  }
+argv.history &&
+  runHistoryQuery(urls, API_KEY, queryParams).then((cruxData) => {
+    console.log(JSON.stringify(cruxData));
+  });
 
-  const data = cruxData;
+!argv.history &&
+  getReports(urls, API_KEY, queryParams).then((cruxData) => {
+    if (cruxData.length === 0) {
+      console.log(`There's no valid data`);
+      process.exitCode = 0;
+    }
 
-  if (argv.output === 'json') {
-    console.log(JSON.stringify(data));
-  } else if (argv.output === 'csv') {
-    printHeading(data.params);
-    printCSV(data.metrics);
-  } else if (argv.output === 'distribution') {
-    printHeading(data.params);
-    printDistribution(data.metrics);
-  } else {
-    printHeading(data.params);
-    printTable(data.metrics);
-  }
-});
+    const data = cruxData;
+
+    if (argv.output === 'json') {
+      console.log(JSON.stringify(data));
+    } else if (argv.output === 'csv') {
+      printHeading(data.params);
+      printCSV(data.metrics);
+    } else if (argv.output === 'distribution') {
+      printHeading(data.params);
+      printDistribution(data.metrics);
+    } else {
+      printHeading(data.params);
+      printTable(data.metrics);
+    }
+  });
