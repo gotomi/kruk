@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { getReports, runHistoryQuery } from '../src/crux.js';
+import { getReports, runCruxQuery } from '../src/crux.js';
 import { printTable, printDistribution, printCSV, printHeading } from '../src/crux-output.js';
 import process from 'node:process';
 import path from 'path';
@@ -78,7 +78,7 @@ if (argv.urls) {
 //output
 
 argv.history &&
-  runHistoryQuery(urls, API_KEY, queryParams).then((cruxData) => {
+  runCruxQuery(urls, API_KEY, queryParams, true).then((cruxData) => {
     console.log(JSON.stringify(cruxData));
   });
 
