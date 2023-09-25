@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
 import { convertData } from './crux-convert.js';
 
-export async function runCruxQuery(url, API_KEY, queryParams, historyAPI = false) {
+export async function runQuery(url, API_KEY, queryParams, historyAPI = false) {
   const params = JSON.parse(JSON.stringify(queryParams));
 
   if (params.checkOrigin) {
@@ -23,7 +23,7 @@ export async function runCruxQuery(url, API_KEY, queryParams, historyAPI = false
 function generateTasks(urls, API_KEY, queryParams) {
   let tasks = [];
   urls.forEach((url) =>
-    tasks.push(runCruxQuery(url, API_KEY, queryParams).catch((error) => console.error('❌ ', url, error.errors))),
+    tasks.push(runQuery(url, API_KEY, queryParams).catch((error) => console.error('❌ ', url, error.errors))),
   );
 
   return tasks;
