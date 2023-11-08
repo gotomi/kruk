@@ -36,14 +36,14 @@
   "author": "gotomi",
   "license": "Apache-2.0",
   "dependencies": {
-    "googleapis": "^126.0.1",
+    "googleapis": "^128.0.0",
     "minimist": "^1.2.8",
     "prepend-http": "4.0.0",
     "table": "^6.8.1"
   },
   "devDependencies": {
-    "eslint": "^8.50.0",
+    "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0"
+    "eslint-plugin-prettier": "^5.0.1"
   }
 }
