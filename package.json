@@ -1,6 +1,6 @@
 {
-  "name": "kruk", 
-  "version": "0.4.0-beta.1",
+  "name": "kruk",
+  "version": "0.4.0-beta.2",
   "description": "Command Line Tool for CrUX Rest API",
   "repository": "https://github.com/gotomi/kruk",
   "main": "src/crux.js",
@@ -36,14 +36,14 @@
   "author": "gotomi",
   "license": "Apache-2.0",
   "dependencies": {
-    "googleapis": "^128.0.0",
+    "googleapis": "^133.0.0",
     "minimist": "^1.2.8",
     "prepend-http": "4.0.0",
     "table": "^6.8.1"
   },
   "devDependencies": {
-    "eslint": "^8.53.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.1"
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3"
   }
 }
