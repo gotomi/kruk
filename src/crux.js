@@ -14,20 +14,15 @@ export async function runQuery(url, API_KEY, queryParams, config) {
   return res.data.record;
 }
 
-function generateTasks(urls, API_KEY, queryParams, config) {
-  const urlsPrepared = urls.split(',').map((url) => prependHttp(url));
-
-  let tasks = [];
-  urlsPrepared.forEach((url) =>
-    tasks.push(runQuery(url, API_KEY, queryParams, config).catch((error) => console.error('❌ ', url, error.errors))),
-  );
-
-  return tasks;
+function handleErrors(error) {
+  delete error.config.params.key;
+  console.log({ params: error.config.params, errors: error.errors });
 }
 
 export async function getReports(urls, API_KEY, queryParams, config) {
-  const tasks = generateTasks(urls, API_KEY, queryParams, config);
+  const urlsPrepared = urls.split(',').map((url) => prependHttp(url));
+  const tasks = urlsPrepared.map((url) => runQuery(url, API_KEY, queryParams, config).catch(handleErrors));
   const data = (await Promise.all([...tasks])).filter((item) => !!item);
 
-  return data.length && !config.history ? convertData(data) : data;
+  return !config.history ? convertData(data) : data;
 }

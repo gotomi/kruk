@@ -78,26 +78,25 @@ if (!argv.urls) {
 
 const urls = argv.urls;
 //output
+const cruxData = await getReports(urls, API_KEY, queryParams, config);
 
-getReports(urls, API_KEY, queryParams, config).then((cruxData) => {
-  if (cruxData.length === 0) {
-    console.log(`There's no valid data`);
-    process.exitCode = 0;
-  }
+if (cruxData.error) {
+  console.log(cruxData);
+  process.exit();
+}
 
-  const data = cruxData;
+const data = cruxData;
 
-  if (argv.output === 'json' || argv.history) {
-    //todo - other view for history data
-    console.log(JSON.stringify(data));
-  } else if (argv.output === 'csv') {
-    printHeading(data.params);
-    printCSV(data.metrics);
-  } else if (argv.output === 'distribution') {
-    printHeading(data.params);
-    printDistribution(data.metrics);
-  } else {
-    printHeading(data.params);
-    printTable(data.metrics);
-  }
-});
+if (argv.output === 'json' || argv.history) {
+  //todo - other view for history data
+  console.log(JSON.stringify(data));
+} else if (argv.output === 'csv') {
+  printHeading(data.params);
+  printCSV(data.metrics);
+} else if (argv.output === 'distribution') {
+  printHeading(data.params);
+  printDistribution(data.metrics);
+} else {
+  printHeading(data.params);
+  printTable(data.metrics);
+}
