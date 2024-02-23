@@ -24,6 +24,10 @@ const config = {
   origin: argv.checkOrigin,
   history: argv.history,
 };
+const params = {
+  queryParams,
+  config,
+};
 // input data validation
 const API_KEY = argv.key;
 const formFactorValues = ['ALL_FORM_FACTORS', 'PHONE', 'DESKTOP', 'TABLET'];
@@ -78,7 +82,7 @@ if (!argv.urls) {
 
 const urls = argv.urls;
 //output
-const cruxData = await getReports(urls, API_KEY, queryParams, config);
+const cruxData = await getReports(urls, API_KEY, params);
 
 if (cruxData.error) {
   console.log(cruxData);
