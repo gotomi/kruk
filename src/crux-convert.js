@@ -24,6 +24,11 @@ function metricRank(value, metric) {
 }
 
 export function convertData(data) {
+  if (!data.length)
+    return {
+      error: 'data not found',
+    };
+
   const allMetrics = Object.keys(metricsMeta);
   const params = JSON.parse(JSON.stringify(data[0].key));
 
