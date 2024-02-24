@@ -3,7 +3,9 @@ import { printTable, printDistribution, printCSV, printHeading } from '../src/cr
 import { getReports } from '../src/crux.js';
 import { prepareParams } from '../src/prepareParams.js';
 import { Command, Option } from 'commander';
+import { readFile } from 'fs/promises';
 
+const info = JSON.parse(await readFile(new URL('../package.json', import.meta.url)));
 const program = new Command();
 
 function commaSeparatedList(value) {
@@ -12,6 +14,7 @@ function commaSeparatedList(value) {
 
 program
   .name('kruk')
+  .version(info.version)
   .requiredOption('--urls <url>', 'one or more comma seperated urls', commaSeparatedList)
   .addOption(
     new Option(
@@ -27,7 +30,7 @@ program
   .addOption(
     new Option('--ect <string>', 'effective connection type').choices(['offline', 'slow-2G', '2G', '3G', '4G']),
   )
-  .addOption(new Option('--checkOrigin', 'origin or url'))
+  .addOption(new Option('--checkOrigin', 'get data for origin'))
   .addOption(new Option('--history', 'use CrUX history API'))
   .addOption(
     new Option('--output <string>', 'output format').choices(['distribution', 'json', 'csv', 'table']).default('table'),
