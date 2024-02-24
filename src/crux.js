@@ -2,19 +2,12 @@ import { google } from 'googleapis';
 import { convertData } from './crux-convert.js';
 import prependHttp from 'prepend-http';
 
-export async function runQuery(url, API_KEY, params) {
-  const urlOrOrigin = params.origin ? { origin: url } : { url: url };
-  const { effectiveConnectionType, formFactor } = params;
-  const cruxQueryParams = {
-    effectiveConnectionType,
-    formFactor,
-    ...urlOrOrigin,
-  };
+export async function runQuery(API_KEY, cruxQueryParams, history = false) {
   const crux = google.chromeuxreport({
     version: 'v1',
     auth: API_KEY,
   });
-  const res = params.history
+  const res = history
     ? await crux.records.queryHistoryRecord(cruxQueryParams)
     : await crux.records.queryRecord(cruxQueryParams);
 
@@ -28,8 +21,17 @@ function handleErrors(error) {
 
 export async function getReports(urls, API_KEY, params) {
   const urlsPrepared = urls.map((url) => prependHttp(url));
-  const tasks = urlsPrepared.map((url) => runQuery(url, API_KEY, params).catch(handleErrors));
+  const { effectiveConnectionType, formFactor, history, origin } = params;
+  const cruxQueryParams = {
+    effectiveConnectionType,
+    formFactor,
+  };
+  const tasks = urlsPrepared.map((url) => {
+    const urlOrOrigin = origin ? { origin: url } : { url: url };
+
+    return runQuery(API_KEY, { ...cruxQueryParams, ...urlOrOrigin }, history).catch(handleErrors);
+  });
   const data = (await Promise.all([...tasks])).filter((item) => !!item);
 
-  return !params.history ? convertData(data) : data;
+  return !history ? convertData(data) : data;
 }
