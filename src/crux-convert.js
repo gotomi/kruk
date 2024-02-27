@@ -23,7 +23,28 @@ function metricRank(value, metric) {
   }
 }
 
-export function convertData(data) {
+function groupByMetricAndSort(data, sortBy = 'histogram') {
+  const byMetric = { CLS: [], FCP: [], LCP: [], FID: [], INP: [], TTFB: [] };
+
+  data.forEach((site) => {
+    for (const metric in byMetric) {
+      byMetric[metric].push({ url: site.url, ...site[metric] });
+    }
+  });
+
+  for (const metric in byMetric) {
+    byMetric[metric].sort((a, b) => {
+      const aValue = sortBy === 'histogram' ? parseFloat(a.histogram[0]) : parseFloat(b.p75);
+      const bValue = sortBy === 'histogram' ? parseFloat(b.histogram[0]) : parseFloat(a.p75);
+
+      return bValue - aValue;
+    });
+  }
+
+  return byMetric;
+}
+
+export function convertData(data, groupByMetric = false) {
   if (!data.length)
     return {
       error: 'data not found',
@@ -44,41 +65,58 @@ export function convertData(data) {
     day: 'numeric',
   }).format(new Date());
 
-  const metrics = data.map((el) => {
-    const item = {
-      url: el.key.url || el.key.origin,
-    };
+  const metrics = data
+    .map((el) => {
+      const item = {
+        url: (el.key.url || el.key.origin).replaceAll('https://', '').replaceAll('http://', ''),
+      };
 
-    allMetrics.forEach((metric) => {
-      const m = abbr(metric);
+      let minimalGood = 100;
+      allMetrics.forEach((metric) => {
+        const m = abbr(metric);
 
-      if (typeof el.metrics[metric] !== 'undefined') {
-        const p75value = el.metrics[metric].percentiles.p75;
-        const histogram = el.metrics[metric].histogram.map((item) => {
-          if (item.density) {
-            return Math.round(item.density * 10000) / 100;
-          } else {
-            return 0;
-          }
-        });
-        const rank = metricRank(p75value, metric);
+        if (typeof el.metrics[metric] !== 'undefined') {
+          const p75value = el.metrics[metric].percentiles.p75;
+          const histogram = el.metrics[metric].histogram.map((item) => {
+            if (item.density) {
+              return Math.round(item.density * 10000) / 100;
+            } else {
+              return 0;
+            }
+          });
+          const rank = metricRank(p75value, metric);
 
-        item[m] = {
-          histogram: histogram,
-          p75: p75value,
-          rank: rank,
-        };
-      } else {
-        item[m] = {
-          histogram: [],
-          p75: '-',
-          rank: '-',
-        };
-      }
+          minimalGood = Math.min(minimalGood, histogram[0]);
+          item[m] = {
+            histogram: histogram,
+            p75: p75value,
+            rank: rank,
+          };
+        } else {
+          item[m] = {
+            histogram: [],
+            p75: '-',
+            rank: '-',
+          };
+        }
+      });
+      item.minimalGood = minimalGood;
+
+      return item;
+    })
+    .sort(function compareByMinimal(a, b) {
+      const y = Number(a.minimalGood);
+      const x = Number(b.minimalGood);
+
+      if (y > x) return -1;
+
+      if (x < y) return 1;
+
+      return 0;
     });
 
-    return item;
-  });
-
-  return { params, metrics };
+  return {
+    params,
+    metrics: groupByMetric ? groupByMetricAndSort(metrics) : metrics,
+  };
 }

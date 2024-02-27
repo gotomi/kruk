@@ -19,7 +19,7 @@ function handleErrors(error) {
   console.log({ params: error.config.params, errors: error.errors });
 }
 
-export async function getReports(urls, API_KEY, params) {
+export async function getReports(urls, API_KEY, params, groupByMetric = false) {
   const urlsPrepared = urls.map((url) => prependHttp(url));
   const { effectiveConnectionType, formFactor, history, origin } = params;
   const cruxQueryParams = {
@@ -33,5 +33,5 @@ export async function getReports(urls, API_KEY, params) {
   });
   const data = (await Promise.all([...tasks])).filter((item) => !!item);
 
-  return !history ? convertData(data) : data;
+  return !history ? convertData(data, groupByMetric) : data;
 }

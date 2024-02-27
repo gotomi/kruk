@@ -49,9 +49,15 @@ function colorizeValue(value, rank, pad = 0) {
 }
 
 function printTable(data) {
-  const headings = Object.keys(data[0]);
+  const headings = Object.keys(data[0]).filter((item) => item !== 'minimalGood');
   const values = data.map((item) =>
-    Object.values(item).map((it) => (typeof it === 'object' ? colorizeValue(it.p75, it.rank) : it)),
+    Object.entries(item)
+      .filter((entry) => entry[0] !== 'minimalGood')
+      .map((entry) => {
+        const it = entry[1];
+
+        return typeof it === 'object' ? colorizeValue(it.p75, it.rank) : it;
+      }),
   );
   const tableData = [headings].concat(values);
   const output = table(tableData);
@@ -63,8 +69,12 @@ function printDistribution(data) {
   const headings = Object.keys(data[0]);
   const values = data
     .map((item) =>
-      Object.values(item)
-        .map((it, i) => {
+      Object.entries(item)
+        .map((entry, i) => {
+          const [key, it] = entry;
+
+          if (key === 'minimalGood') return;
+
           if (typeof it === 'object') {
             return (
               bold(headings[i].padStart(4)) + '' + colorizeValue(it.p75, it.rank, 6) + drawDistribution(it.histogram)
