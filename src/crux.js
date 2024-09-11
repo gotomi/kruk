@@ -1,10 +1,10 @@
-import { google } from 'googleapis';
-import { convertData } from './crux-convert.js';
-import prependHttp from 'prepend-http';
+import { google } from "googleapis";
+import { convertData } from "./crux-convert.js";
+import prependHttp from "prepend-http";
 
 export async function runQuery(API_KEY, cruxQueryParams, history = false) {
   const crux = google.chromeuxreport({
-    version: 'v1',
+    version: "v1",
     auth: API_KEY,
   });
   const res = history
@@ -29,7 +29,11 @@ export async function getReports(urls, API_KEY, params, groupByMetric = false) {
   const tasks = urlsPrepared.map((url) => {
     const urlOrOrigin = origin ? { origin: url } : { url: url };
 
-    return runQuery(API_KEY, { ...cruxQueryParams, ...urlOrOrigin }, history).catch(handleErrors);
+    return runQuery(
+      API_KEY,
+      { ...cruxQueryParams, ...urlOrOrigin },
+      history
+    ).catch(handleErrors);
   });
   const data = (await Promise.all([...tasks])).filter((item) => !!item);
 
