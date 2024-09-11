@@ -3,7 +3,6 @@
 const metricsMeta = {
   cumulative_layout_shift: { range: [0.1, 0.25], abbr: 'CLS' },
   first_contentful_paint: { range: [1800, 3000], abbr: 'FCP' },
-  first_input_delay: { range: [100, 300], abbr: 'FID' },
   largest_contentful_paint: { range: [2500, 4000], abbr: 'LCP' },
   experimental_time_to_first_byte: { range: [800, 1800], abbr: 'TTFB' },
   interaction_to_next_paint: { range: [200, 500], abbr: 'INP' },
@@ -24,7 +23,7 @@ function metricRank(value, metric) {
 }
 
 function groupByMetricAndSort(data, sortBy = 'histogram') {
-  const byMetric = { CLS: [], FCP: [], LCP: [], FID: [], INP: [], TTFB: [] };
+  const byMetric = { CLS: [], FCP: [], LCP: [],  INP: [], TTFB: [] };
 
   data.forEach((site) => {
     for (const metric in byMetric) {
