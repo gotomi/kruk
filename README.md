@@ -74,6 +74,77 @@ The tool provides data for the following Core Web Vitals and additional metrics:
 3. **CSV**: Outputs data in CSV format for further processing
 4. **JSON**: Raw JSON output of the data
 
+
+
+## Programmatic Usage
+
+Kruk can also be used as a module in your Node.js applications.
+
+### Installation
+
+```bash
+npm install kruk
+```
+
+### Basic Usage
+
+```javascript
+import { getReports } from 'kruk';
+
+async function fetchCruxData() {
+  const urls = ['www.google.com', 'www.bing.com'];
+  const API_KEY = 'YOUR_API_KEY';
+
+  const params = {
+    effectiveConnectionType: '4G', // optional
+    formFactor: 'PHONE',          // optional
+    origin: false,                // optional, set true for origin-level data
+    history: false                // optional, set true for historical data
+  };
+
+  try {
+    const data = await getReports(urls, API_KEY, params);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+### Response Structure
+
+The response will include metrics data in the following format:
+
+```javascript
+{
+  params: {
+    // Query parameters used
+  },
+  metrics: [
+    {
+      url: "https://www.example.com",
+      CLS: {
+        p75: number,
+        rank: "good" | "average" | "poor",
+        histogram: [number, number, number] // Distribution values
+      },
+      FCP: {
+        // Similar structure as CLS
+      },
+      LCP: {
+        // Similar structure as CLS
+      },
+      TTFB: {
+        // Similar structure as CLS
+      },
+      INP: {
+        // Similar structure as CLS
+      }
+    }
+  ]
+}
+```
+
 ## Requirements
 
 - Node.js
