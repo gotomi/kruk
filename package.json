@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --ext \".ts,.js\" --ignore-path .gitignore .",
+    "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix"
   },
   "keywords": [
@@ -34,14 +34,16 @@
   "author": "gotomi",
   "license": "Apache-2.0",
   "dependencies": {
-    "commander": "^13.0.0",
+    "commander": "^13.1.0",
     "googleapis": "^144.0.0",
     "prepend-http": "4.0.0",
     "table": "^6.9.0"
   },
   "devDependencies": {
-    "eslint": "^9.18.0",
+    "@eslint/js": "^9.20.0",
+    "eslint": "^9.20.0",
     "eslint-config-prettier": "^10.0.1",
-    "eslint-plugin-prettier": "^5.2.2"
+    "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^15.14.0"
   }
 }

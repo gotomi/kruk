@@ -1,11 +1,11 @@
 // metrics metadata
 
 const metricsMeta = {
-  cumulative_layout_shift: { range: [0.1, 0.25], abbr: 'CLS' },
-  first_contentful_paint: { range: [1800, 3000], abbr: 'FCP' },
-  largest_contentful_paint: { range: [2500, 4000], abbr: 'LCP' },
-  experimental_time_to_first_byte: { range: [800, 1800], abbr: 'TTFB' },
-  interaction_to_next_paint: { range: [200, 500], abbr: 'INP' },
+  cumulative_layout_shift: { range: [0.1, 0.25], abbr: "CLS" },
+  first_contentful_paint: { range: [1800, 3000], abbr: "FCP" },
+  largest_contentful_paint: { range: [2500, 4000], abbr: "LCP" },
+  experimental_time_to_first_byte: { range: [800, 1800], abbr: "TTFB" },
+  interaction_to_next_paint: { range: [200, 500], abbr: "INP" },
 };
 
 function abbr(metric) {
@@ -16,14 +16,14 @@ function metricRank(value, metric) {
   if (value > metricsMeta[metric].range[1]) {
     return `poor`;
   } else if (value > metricsMeta[metric].range[0]) {
-    return 'average';
+    return "average";
   } else {
     return `good`;
   }
 }
 
-function groupByMetricAndSort(data, sortBy = 'histogram') {
-  const byMetric = { CLS: [], FCP: [], LCP: [],  INP: [], TTFB: [] };
+function groupByMetricAndSort(data, sortBy = "histogram") {
+  const byMetric = { CLS: [], FCP: [], LCP: [], INP: [], TTFB: [] };
 
   data.forEach((site) => {
     for (const metric in byMetric) {
@@ -33,8 +33,10 @@ function groupByMetricAndSort(data, sortBy = 'histogram') {
 
   for (const metric in byMetric) {
     byMetric[metric].sort((a, b) => {
-      const aValue = sortBy === 'histogram' ? parseFloat(a.histogram[0]) : parseFloat(b.p75);
-      const bValue = sortBy === 'histogram' ? parseFloat(b.histogram[0]) : parseFloat(a.p75);
+      const aValue =
+        sortBy === "histogram" ? parseFloat(a.histogram[0]) : parseFloat(b.p75);
+      const bValue =
+        sortBy === "histogram" ? parseFloat(b.histogram[0]) : parseFloat(a.p75);
 
       return bValue - aValue;
     });
@@ -46,7 +48,7 @@ function groupByMetricAndSort(data, sortBy = 'histogram') {
 export function convertData(data, groupByMetric = false) {
   if (!data.length)
     return {
-      error: 'data not found',
+      error: "data not found",
     };
 
   const allMetrics = Object.keys(metricsMeta);
@@ -55,26 +57,28 @@ export function convertData(data, groupByMetric = false) {
   params.collectionPeriod = data[0].collectionPeriod;
 
   Object.keys(params).forEach((item) => {
-    if (item === 'url' || item === 'origin') params[item] = true;
+    if (item === "url" || item === "origin") params[item] = true;
   });
 
-  params.date = new Intl.DateTimeFormat('pl-PL', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
+  params.date = new Intl.DateTimeFormat("pl-PL", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
   }).format(new Date());
 
   const metrics = data
     .map((el) => {
       const item = {
-        url: (el.key.url || el.key.origin).replaceAll('https://', '').replaceAll('http://', ''),
+        url: (el.key.url || el.key.origin)
+          .replaceAll("https://", "")
+          .replaceAll("http://", ""),
       };
 
       let minimalGood = 100;
       allMetrics.forEach((metric) => {
         const m = abbr(metric);
 
-        if (typeof el.metrics[metric] !== 'undefined') {
+        if (typeof el.metrics[metric] !== "undefined") {
           const p75value = el.metrics[metric].percentiles.p75;
           const histogram = el.metrics[metric].histogram.map((item) => {
             if (item.density) {
@@ -94,8 +98,8 @@ export function convertData(data, groupByMetric = false) {
         } else {
           item[m] = {
             histogram: [],
-            p75: '-',
-            rank: '-',
+            p75: "-",
+            rank: "-",
           };
         }
       });
