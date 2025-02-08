@@ -1,7 +1,7 @@
 export function prepareParams(argv) {
   const effectiveConnectionType = !argv.history
     ? {
-        effectiveConnectionType: argv.effectiveConnectionType || argv.ect || '',
+        effectiveConnectionType: argv.effectiveConnectionType || argv.ect || "",
       }
     : {};
   const params = {

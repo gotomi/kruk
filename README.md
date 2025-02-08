@@ -11,6 +11,7 @@ npm install -g kruk
 ## Usage
 
 Basic syntax:
+
 ```bash
 kruk --key YOUR_API_KEY --urls URL1,URL2 [options]
 ```
@@ -34,26 +35,31 @@ kruk --key YOUR_API_KEY --urls URL1,URL2 [options]
 ### Examples
 
 1. Basic usage with multiple URLs:
+
 ```bash
 kruk --key YOUR_API_KEY --urls www.google.com,www.bing.com
 ```
 
 2. Check specific connection type:
+
 ```bash
 kruk --key YOUR_API_KEY --urls www.google.com,www.bing.com --ect 4G
 ```
 
 3. Check desktop metrics:
+
 ```bash
 kruk --key YOUR_API_KEY --urls www.google.com,www.bing.com --formFactor DESKTOP
 ```
 
 4. Get origin-level data:
+
 ```bash
 kruk --key YOUR_API_KEY --urls www.google.com --checkOrigin
 ```
 
 5. Get data for tablet users on 3G:
+
 ```bash
 kruk --key YOUR_API_KEY --urls www.google.com,www.bing.com --formFactor TABLET --ect 3G
 ```
@@ -61,6 +67,7 @@ kruk --key YOUR_API_KEY --urls www.google.com,www.bing.com --formFactor TABLET -
 ## Output Metrics
 
 The tool provides data for the following Core Web Vitals and additional metrics:
+
 - CLS (Cumulative Layout Shift)
 - FCP (First Contentful Paint)
 - LCP (Largest Contentful Paint)
@@ -73,8 +80,6 @@ The tool provides data for the following Core Web Vitals and additional metrics:
 2. **Distribution**: Shows visual distribution of metrics using unicode characters
 3. **CSV**: Outputs data in CSV format for further processing
 4. **JSON**: Raw JSON output of the data
-
-
 
 ## Programmatic Usage
 
@@ -89,17 +94,17 @@ npm install kruk
 ### Basic Usage
 
 ```javascript
-import { getReports } from 'kruk';
+import { getReports } from "kruk";
 
 async function fetchCruxData() {
-  const urls = ['www.google.com', 'www.bing.com'];
-  const API_KEY = 'YOUR_API_KEY';
+  const urls = ["www.google.com", "www.bing.com"];
+  const API_KEY = "YOUR_API_KEY";
 
   const params = {
-    effectiveConnectionType: '4G', // optional
-    formFactor: 'PHONE',          // optional
-    origin: false,                // optional, set true for origin-level data
-    history: false                // optional, set true for historical data
+    effectiveConnectionType: "4G", // optional
+    formFactor: "PHONE", // optional
+    origin: false, // optional, set true for origin-level data
+    history: false, // optional, set true for historical data
   };
 
   try {

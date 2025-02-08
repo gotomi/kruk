@@ -32,7 +32,7 @@ export async function getReports(urls, API_KEY, params, groupByMetric = false) {
     return runQuery(
       API_KEY,
       { ...cruxQueryParams, ...urlOrOrigin },
-      history
+      history,
     ).catch(handleErrors);
   });
   const data = (await Promise.all([...tasks])).filter((item) => !!item);
