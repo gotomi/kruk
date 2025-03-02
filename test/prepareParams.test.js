@@ -1,81 +1,83 @@
-import { prepareParams } from '../src/prepareParams.js';
+import { expect, describe, test } from "@jest/globals";
 
-describe('prepareParams', () => {
-  test('should handle basic parameters', () => {
+import { prepareParams } from "../src/prepareParams.js";
+
+describe("prepareParams", () => {
+  test("should handle basic parameters", () => {
     const argv = {
-      formFactor: 'PHONE',
+      formFactor: "PHONE",
     };
-    
+
     const result = prepareParams(argv);
-    
+
     expect(result).toEqual({
-      formFactor: 'PHONE',
+      formFactor: "PHONE",
       origin: false,
       history: false,
-      effectiveConnectionType: '',
+      effectiveConnectionType: "",
     });
   });
 
-  test('should handle effectiveConnectionType parameter', () => {
+  test("should handle effectiveConnectionType parameter", () => {
     const argv = {
-      formFactor: 'DESKTOP',
-      ect: '4G',
+      formFactor: "DESKTOP",
+      ect: "4G",
     };
-    
+
     const result = prepareParams(argv);
-    
+
     expect(result).toEqual({
-      formFactor: 'DESKTOP',
+      formFactor: "DESKTOP",
       origin: false,
       history: false,
-      effectiveConnectionType: '4G',
+      effectiveConnectionType: "4G",
     });
   });
 
-  test('should handle both ect and effectiveConnectionType parameters', () => {
+  test("should handle both ect and effectiveConnectionType parameters", () => {
     const argv = {
-      formFactor: 'DESKTOP',
-      ect: '4G',
-      effectiveConnectionType: '3G',
+      formFactor: "DESKTOP",
+      ect: "4G",
+      effectiveConnectionType: "3G",
     };
-    
+
     const result = prepareParams(argv);
-    
+
     expect(result).toEqual({
-      formFactor: 'DESKTOP',
+      formFactor: "DESKTOP",
       origin: false,
       history: false,
-      effectiveConnectionType: '3G',
+      effectiveConnectionType: "3G",
     });
   });
 
-  test('should handle checkOrigin parameter', () => {
+  test("should handle checkOrigin parameter", () => {
     const argv = {
-      formFactor: 'PHONE',
+      formFactor: "PHONE",
       checkOrigin: true,
     };
-    
+
     const result = prepareParams(argv);
-    
+
     expect(result).toEqual({
-      formFactor: 'PHONE',
+      formFactor: "PHONE",
       origin: true,
       history: false,
-      effectiveConnectionType: '',
+      effectiveConnectionType: "",
     });
   });
 
-  test('should handle history parameter', () => {
+  test("should handle history parameter", () => {
     const argv = {
-      formFactor: 'PHONE',
+      formFactor: "PHONE",
       history: true,
-      ect: '4G',
+      ect: "4G",
     };
-    
+
     const result = prepareParams(argv);
-    
+
     expect(result).toEqual({
-      formFactor: 'PHONE',
+      formFactor: "PHONE",
       origin: false,
       history: true,
     });

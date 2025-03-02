@@ -1,10 +1,10 @@
 export default {
-  testEnvironment: 'node',
+  testEnvironment: "node",
   transform: {},
   moduleNameMapper: {
-    '^(\\.{1,2}/.*)\\.js$': '$1',
+    "^(\\.{1,2}/.*)\\.js$": "$1",
   },
-  testMatch: ['**/test/**/*.test.js'],
+  testMatch: ["**/test/**/*.test.js"],
   collectCoverage: true,
-  coverageDirectory: 'coverage',
+  coverageDirectory: "coverage",
 };
