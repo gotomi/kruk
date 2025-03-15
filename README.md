@@ -73,6 +73,7 @@ The tool provides data for the following Core Web Vitals and additional metrics:
 - LCP (Largest Contentful Paint)
 - TTFB (Time to First Byte)
 - INP (Interaction to Next Paint)
+- RTT (Round Trip Time)
 
 ## Output Formats
 
@@ -143,6 +144,9 @@ The response will include metrics data in the following format:
         // Similar structure as CLS
       },
       INP: {
+        // Similar structure as CLS
+      },
+      RTT: {
         // Similar structure as CLS
       }
     }

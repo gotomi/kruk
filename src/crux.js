@@ -10,7 +10,6 @@ export async function runQuery(API_KEY, cruxQueryParams, history = false) {
   const res = history
     ? await crux.records.queryHistoryRecord(cruxQueryParams)
     : await crux.records.queryRecord(cruxQueryParams);
-
   return res.data.record;
 }
 
