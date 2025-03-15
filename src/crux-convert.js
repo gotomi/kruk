@@ -6,7 +6,7 @@ const metricsMeta = {
   largest_contentful_paint: { range: [2500, 4000], abbr: "LCP" },
   experimental_time_to_first_byte: { range: [800, 1800], abbr: "TTFB" },
   interaction_to_next_paint: { range: [200, 500], abbr: "INP" },
-  round_trip_time: { range: [0, 75, 275], abbr: "RTT" },
+  round_trip_time: { range: [75, 275], abbr: "RTT" },
 };
 
 function abbr(metric) {
