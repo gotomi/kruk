@@ -9,6 +9,12 @@ const metricsMeta = {
   round_trip_time: { range: [75, 275], abbr: "RTT" },
 };
 
+const CoreWebVitals = [
+  "cumulative_layout_shift",
+  "largest_contentful_paint",
+  "interaction_to_next_paint",
+];
+
 function abbr(metric) {
   return metricsMeta[metric] ? metricsMeta[metric].abbr : metric;
 }
@@ -89,8 +95,10 @@ export function convertData(data, groupByMetric = false) {
             }
           });
           const rank = metricRank(p75value, metric);
+          if (CoreWebVitals.includes(metric)) {
+            minimalGood = Math.min(minimalGood, histogram[0]);
+          }
 
-          minimalGood = Math.min(minimalGood, histogram[0]);
           item[m] = {
             histogram: histogram,
             p75: p75value,
