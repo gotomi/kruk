@@ -25,8 +25,6 @@ kruk --key YOUR_API_KEY --urls URL1,URL2 [options]
 
 - `--formFactor`: Device type to filter results (default: 'PHONE')
   - Options: 'ALL_FORM_FACTORS', 'DESKTOP', 'TABLET', 'PHONE'
-- `--ect`: Effective Connection Type
-  - Options: 'offline', 'slow-2G', '2G', '3G', '4G'
 - `--checkOrigin`: Get data for the entire origin instead of specific URLs
 - `--history`: Use CrUX history API to get historical data
 - `--output`: Output format (default: 'table')
@@ -38,12 +36,6 @@ kruk --key YOUR_API_KEY --urls URL1,URL2 [options]
 
 ```bash
 kruk --key YOUR_API_KEY --urls www.google.com,www.bing.com
-```
-
-2. Check specific connection type:
-
-```bash
-kruk --key YOUR_API_KEY --urls www.google.com,www.bing.com --ect 4G
 ```
 
 3. Check desktop metrics:
@@ -102,7 +94,6 @@ async function fetchCruxData() {
   const API_KEY = "YOUR_API_KEY";
 
   const params = {
-    effectiveConnectionType: "4G", // optional
     formFactor: "PHONE", // optional
     origin: false, // optional, set true for origin-level data
     history: false, // optional, set true for historical data

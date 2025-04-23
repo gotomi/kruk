@@ -38,15 +38,6 @@ program
       .choices(["ALL_FORM_FACTORS", "DESKTOP", "TABLET", "PHONE"])
       .default("PHONE"),
   )
-  .addOption(
-    new Option("--ect <string>", "effective connection type").choices([
-      "offline",
-      "slow-2G",
-      "2G",
-      "3G",
-      "4G",
-    ]),
-  )
   .addOption(new Option("--checkOrigin", "get data for origin"))
   .addOption(new Option("--history", "use CrUX history API"))
   .addOption(
@@ -54,12 +45,11 @@ program
       .choices(["distribution", "json", "csv", "table"])
       .default("table"),
   ).description(`Usage:
-  kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com --ect 4G
   kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com
   kruk --key [YOUR_API_KEY] --urls www.google.com
   kruk --key [YOUR_API_KEY] --urls www.google.com --checkOrigin
   kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com --formFactor DESKTOP
-  kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com --formFactor TABLET --ect 3G`);
+  kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com --formFactor TABLET`);
 
 program.parse();
 
