@@ -20,9 +20,8 @@ function handleErrors(error) {
 
 export async function getReports(urls, API_KEY, params, groupByMetric = false) {
   const urlsPrepared = urls.map((url) => prependHttp(url));
-  const { effectiveConnectionType, formFactor, history, origin } = params;
+  const { formFactor, history, origin } = params;
   const cruxQueryParams = {
-    effectiveConnectionType,
     formFactor,
   };
   const tasks = urlsPrepared.map((url) => {
