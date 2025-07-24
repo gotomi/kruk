@@ -119,14 +119,32 @@ function printCSV(data) {
   console.log(titleRow + values);
 }
 
-//output
-
 function printHeading(params) {
-  const heading = `\u001b[32m\nChrome UX Report \u001b[0m ${JSON.stringify(
-    params,
-  )}`;
+  // eslint-disable-next-line no-unused-vars
+  const { collectionPeriod, date, origin, url, ...rest } = params;
 
-  console.log(heading);
+  const formatCollectionPeriod = (period) => {
+    const { firstDate, lastDate } = period;
+    const formatDate = (d) =>
+      new Date(d.year, d.month - 1, d.day).toLocaleString("pl-PL", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      });
+    return `${formatDate(firstDate)} to ${formatDate(lastDate)}`;
+  };
+
+  const data = Object.values(rest);
+
+  const source = origin ? "origin" : "url";
+  data.push(source);
+  if (collectionPeriod) {
+    data.push(formatCollectionPeriod(collectionPeriod));
+  }
+
+  const headerData = [yellow("Chrome UX Report"), ...data];
+  const output = table([headerData]);
+  console.log(output);
 }
 
 export { printTable, printDistribution, printCSV, printHeading };
