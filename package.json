@@ -36,7 +36,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "commander": "^14.0.2",
-    "googleapis": "^166.0.0",
+    "googleapis": "^167.0.0",
     "prepend-http": "4.0.0",
     "table": "^6.9.0"
   },
