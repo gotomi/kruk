@@ -74,6 +74,16 @@ The tool provides data for the following Core Web Vitals and additional metrics:
 3. **CSV**: Outputs data in CSV format for further processing
 4. **JSON**: Raw JSON output of the data
 
+### Examples / Screenshots
+
+Table output:
+
+![Kruk table output](example/kruk-table.png)
+
+Distribution output:
+
+![Kruk distribution output](example/kruk-distribution.png)
+
 ## Programmatic Usage
 
 Kruk can also be used as a module in your Node.js applications.
