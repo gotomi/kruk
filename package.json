@@ -35,18 +35,18 @@
   "author": "gotomi",
   "license": "Apache-2.0",
   "dependencies": {
-    "commander": "^14.0.2",
-    "googleapis": "^167.0.0",
+    "commander": "^14.0.3",
+    "googleapis": "^171.4.0",
     "prepend-http": "4.0.0",
     "table": "^6.9.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "eslint": "^9.39.1",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "globals": "^16.5.0",
-    "jest": "^30.2.0",
-    "nock": "^14.0.10"
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "jest": "^30.3.0",
+    "nock": "^14.0.11"
   }
 }
