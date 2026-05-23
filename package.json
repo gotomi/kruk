@@ -2,11 +2,14 @@
   "name": "kruk",
   "version": "0.4.17",
   "description": "Command Line Tool for CrUX Rest API",
-  "repository": "https://github.com/gotomi/kruk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gotomi/kruk.git"
+  },
   "main": "src/crux.js",
   "type": "module",
   "bin": {
-    "kruk": "./bin/index.js"
+    "kruk": "bin/index.js"
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
