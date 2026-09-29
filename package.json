@@ -1,6 +1,6 @@
 {
   "name": "kruk",
-  "version": "0.5.0-beta",
+  "version": "0.5.0",
   "description": "Command Line Tool for CrUX Rest API",
   "repository": {
     "type": "git",
