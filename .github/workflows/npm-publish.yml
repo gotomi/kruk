@@ -16,6 +16,13 @@ jobs:
           node-version: "20.x"
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
-      - run: npm publish --provenance --access public
+      - name: Publish to npm
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [[ "$VERSION" == *-* ]]; then
+            npm publish --provenance --access public --tag beta
+          else
+            npm publish --provenance --access public
+          fi
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
