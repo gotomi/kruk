@@ -34,12 +34,27 @@ program
     ).makeOptionMandatory(),
   )
   .addOption(
-    new Option("--formFactor <string>", "form factor")
+    new Option(
+      "--formFactor <string>",
+      "form factor (ALL_FORM_FACTORS returns the aggregated record)",
+    )
       .choices(["ALL_FORM_FACTORS", "DESKTOP", "TABLET", "PHONE"])
       .default("PHONE"),
   )
   .addOption(new Option("--checkOrigin", "get data for origin"))
   .addOption(new Option("--history", "use CrUX history API"))
+  .addOption(
+    new Option(
+      "--metrics <metrics>",
+      "comma separated metrics to request, e.g. CLS,LCP,NAV_TYPES,LCP-TTFB (default: CLS,FCP,LCP,TTFB,INP,RTT)",
+    ).argParser(commaSeparatedList),
+  )
+  .addOption(
+    new Option(
+      "--periods <count>",
+      "number of collection periods for history queries (1-40, default 25)",
+    ),
+  )
   .addOption(
     new Option("--output <string>", "output format")
       .choices(["distribution", "json", "csv", "table"])
@@ -49,12 +64,21 @@ program
   kruk --key [YOUR_API_KEY] --urls www.google.com
   kruk --key [YOUR_API_KEY] --urls www.google.com --checkOrigin
   kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com --formFactor DESKTOP
-  kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com --formFactor TABLET`);
+  kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com --formFactor TABLET
+  kruk --key [YOUR_API_KEY] --urls www.google.com --metrics CLS,LCP,NAV_TYPES,LCP-TTFB`);
 
 program.parse();
 
 const argv = program.opts();
-const params = prepareParams(argv);
+
+let params;
+try {
+  params = prepareParams(argv);
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
+}
+
 const data = await getReports(argv.urls, argv.key, params);
 
 if (data.error) {

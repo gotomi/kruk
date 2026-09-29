@@ -50,6 +50,13 @@ function colorizeValue(value, rank, pad = 0) {
   }
 }
 
+function fractionsText(fractions) {
+  return Object.entries(fractions)
+    .sort((a, b) => b[1] - a[1])
+    .map(([label, value]) => `${label} ${value}%`)
+    .join(" · ");
+}
+
 function printTable(data) {
   const headings = Object.keys(data[0]).filter(
     (item) => item !== "minimalGood",
@@ -60,7 +67,9 @@ function printTable(data) {
       .map((entry) => {
         const it = entry[1];
 
-        return typeof it === "object" ? colorizeValue(it.p75, it.rank) : it;
+        if (typeof it !== "object") return it;
+        if (it.fractions) return fractionsText(it.fractions);
+        return colorizeValue(it.p75, it.rank);
       }),
   );
   const tableData = [headings].concat(values);
@@ -80,11 +89,20 @@ function printDistribution(data) {
           if (key === "minimalGood") return;
 
           if (typeof it === "object") {
+            if (it.fractions) {
+              return (
+                bold(headings[i].padStart(4)) +
+                " " +
+                fractionsText(it.fractions) +
+                "\n"
+              );
+            }
+
             return (
               bold(headings[i].padStart(4)) +
               "" +
               colorizeValue(it.p75, it.rank, 6) +
-              drawDistribution(it.histogram)
+              (it.histogram.length ? drawDistribution(it.histogram) : "\n")
             );
           } else {
             return "\n" + bold(it) + "\n";
@@ -109,7 +127,19 @@ function printCSV(data) {
       return Object.values(item)
         .map((it, i) => {
           if (typeof it === "object") {
-            return [url, headings[i], it.p75, it.histogram.join(";")].join(";");
+            const distribution = it.fractions
+              ? Object.entries(it.fractions)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([label, value]) => `${label}=${value}`)
+                  .join(";")
+              : it.histogram.join(";");
+
+            return [
+              url,
+              headings[i],
+              it.fractions ? "-" : it.p75,
+              distribution,
+            ].join(";");
           }
         })
         .join("\n");
