@@ -1,5 +1,9 @@
 import { google } from "googleapis";
-import { convertData, defaultMetrics } from "./crux-convert.js";
+import {
+  convertData,
+  defaultMetrics,
+  experimentalMetrics,
+} from "./crux-convert.js";
 import prependHttp from "prepend-http";
 
 export async function runQuery(API_KEY, cruxQueryParams, history = false) {
@@ -14,7 +18,8 @@ export async function runQuery(API_KEY, cruxQueryParams, history = false) {
 }
 
 export function buildQueryParams(params, url) {
-  const { formFactor, history, origin, metrics, periods } = params;
+  const { formFactor, history, origin, metrics, periods, experimental } =
+    params;
   const queryParams = {};
 
   // the API rejects ALL_FORM_FACTORS as a request value, the aggregated
@@ -29,7 +34,10 @@ export function buildQueryParams(params, url) {
     queryParams.url = url;
   }
 
-  queryParams.metrics = metrics && metrics.length ? metrics : defaultMetrics;
+  const selected = metrics && metrics.length ? metrics : defaultMetrics;
+  queryParams.metrics = experimental
+    ? [...new Set([...selected, ...experimentalMetrics])]
+    : selected;
 
   if (history && periods) {
     queryParams.collectionPeriodCount = periods;

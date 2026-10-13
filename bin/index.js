@@ -45,6 +45,12 @@ program
   .addOption(new Option("--history", "use CrUX history API"))
   .addOption(
     new Option(
+      "--experimental",
+      "include experimental Core Web Vitals with soft navigations (CLS-SN, LCP-SN, INP-SN) alongside stable metrics",
+    ),
+  )
+  .addOption(
+    new Option(
       "--metrics <metrics>",
       "comma separated metrics to request, e.g. CLS,LCP,NAV_TYPES,LCP-TTFB (default: CLS,FCP,LCP,TTFB,INP,RTT)",
     ).argParser(commaSeparatedList),
@@ -65,7 +71,8 @@ program
   kruk --key [YOUR_API_KEY] --urls www.google.com --checkOrigin
   kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com --formFactor DESKTOP
   kruk --key [YOUR_API_KEY] --urls www.google.com,www.bing.com --formFactor TABLET
-  kruk --key [YOUR_API_KEY] --urls www.google.com --metrics CLS,LCP,NAV_TYPES,LCP-TTFB`);
+  kruk --key [YOUR_API_KEY] --urls www.google.com --metrics CLS,LCP,NAV_TYPES,LCP-TTFB
+  kruk --key [YOUR_API_KEY] --urls www.google.com --experimental`);
 
 program.parse();
 

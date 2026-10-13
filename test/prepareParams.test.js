@@ -14,6 +14,7 @@ describe("prepareParams", () => {
       formFactor: "PHONE",
       origin: false,
       history: false,
+      experimental: false,
     });
   });
 
@@ -29,6 +30,7 @@ describe("prepareParams", () => {
       formFactor: "PHONE",
       origin: true,
       history: false,
+      experimental: false,
     });
   });
 
@@ -44,6 +46,23 @@ describe("prepareParams", () => {
       formFactor: "PHONE",
       origin: false,
       history: true,
+      experimental: false,
+    });
+  });
+
+  test("should handle experimental parameter", () => {
+    const argv = {
+      formFactor: "PHONE",
+      experimental: true,
+    };
+
+    const result = prepareParams(argv);
+
+    expect(result).toEqual({
+      formFactor: "PHONE",
+      origin: false,
+      history: false,
+      experimental: true,
     });
   });
 

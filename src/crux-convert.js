@@ -29,6 +29,25 @@ const metricsMeta = {
     abbr: "LCP-RD",
     rank: false,
   },
+  // experimental Core Web Vitals variants that include soft navigations;
+  // same thresholds as their stable counterparts
+  experimental_cumulative_layout_shift_with_softnavs: {
+    range: [0.1, 0.25],
+    abbr: "CLS-SN",
+  },
+  experimental_largest_contentful_paint_with_softnavs: {
+    range: [2500, 4000],
+    abbr: "LCP-SN",
+  },
+  experimental_interaction_to_next_paint_with_softnavs: {
+    range: [200, 500],
+    abbr: "INP-SN",
+  },
+  // experimental ad metrics, p75 only, no published thresholds
+  experimental_ad_count: { abbr: "AD-COUNT", rank: false },
+  experimental_ad_density: { abbr: "AD-DENSITY", rank: false },
+  experimental_ad_cpu: { abbr: "AD-CPU", rank: false },
+  experimental_ad_kilobytes: { abbr: "AD-KB", rank: false },
 };
 
 // metrics requested and shown by default; the rest are opt-in via --metrics
@@ -45,6 +64,14 @@ const CoreWebVitals = [
   "cumulative_layout_shift",
   "largest_contentful_paint",
   "interaction_to_next_paint",
+];
+
+// experimental soft-navigation CWV variants added to the request by
+// --experimental / params.experimental; ad metrics stay opt-in via --metrics
+const experimentalMetrics = [
+  "experimental_cumulative_layout_shift_with_softnavs",
+  "experimental_largest_contentful_paint_with_softnavs",
+  "experimental_interaction_to_next_paint_with_softnavs",
 ];
 
 function abbr(metric) {
@@ -178,11 +205,15 @@ export function convertData(data, groupByMetric = false) {
       };
 
       let minimalGood = 100;
+      // defaults first, then experimental soft-nav variants, then the rest,
+      // so the -SN columns line up next to the stable ones
+      const returned = Object.keys(el.metrics).filter(
+        (metric) => metricsMeta[metric] && !defaultMetrics.includes(metric),
+      );
       const metricNames = [
         ...defaultMetrics,
-        ...Object.keys(el.metrics).filter(
-          (metric) => metricsMeta[metric] && !defaultMetrics.includes(metric),
-        ),
+        ...experimentalMetrics.filter((metric) => returned.includes(metric)),
+        ...returned.filter((metric) => !experimentalMetrics.includes(metric)),
       ];
 
       metricNames.forEach((metric) => {
@@ -228,4 +259,4 @@ export function convertData(data, groupByMetric = false) {
   };
 }
 
-export { metricsMeta, defaultMetrics };
+export { metricsMeta, defaultMetrics, experimentalMetrics };

@@ -193,6 +193,143 @@ describe("convertData", () => {
     });
   });
 
+  test("should convert experimental soft-navigation CWV metrics", () => {
+    const mockData = [
+      {
+        key: {
+          url: "https://allegro.pl",
+          formFactor: "PHONE",
+        },
+        collectionPeriod: {
+          firstDate: { year: 2026, month: 9, day: 14 },
+          lastDate: { year: 2026, month: 10, day: 11 },
+        },
+        metrics: {
+          cumulative_layout_shift: {
+            percentiles: { p75: "0.00" },
+            histogram: [
+              { start: "0.00", end: "0.10", density: 0.9468 },
+              { start: "0.10", end: "0.25", density: 0.031 },
+              { start: "0.25", density: 0.0222 },
+            ],
+          },
+          largest_contentful_paint: {
+            percentiles: { p75: 1601 },
+            histogram: [
+              { start: 0, end: 2500, density: 0.9125 },
+              { start: 2500, end: 4000, density: 0.0567 },
+              { start: 4000, density: 0.0308 },
+            ],
+          },
+          experimental_cumulative_layout_shift_with_softnavs: {
+            percentiles: { p75: "0.00" },
+            histogram: [
+              { start: "0.00", end: "0.10", density: 0.956 },
+              { start: "0.10", end: "0.25", density: 0.0261 },
+              { start: "0.25", density: 0.0179 },
+            ],
+          },
+          experimental_largest_contentful_paint_with_softnavs: {
+            percentiles: { p75: 1518 },
+            histogram: [
+              { start: 0, end: 2500, density: 0.9226 },
+              { start: 2500, end: 4000, density: 0.0507 },
+              { start: 4000, density: 0.0267 },
+            ],
+          },
+          experimental_interaction_to_next_paint_with_softnavs: {
+            percentiles: { p75: 107 },
+            histogram: [
+              { start: 0, end: 200, density: 0.9249 },
+              { start: 200, end: 500, density: 0.0637 },
+              { start: 500, density: 0.0114 },
+            ],
+          },
+        },
+      },
+    ];
+
+    const result = convertData(mockData);
+
+    expect(result.metrics[0]["CLS-SN"]).toEqual({
+      histogram: [95.6, 2.61, 1.79],
+      p75: "0.00",
+      rank: "good",
+    });
+    expect(result.metrics[0]["LCP-SN"]).toEqual({
+      histogram: [92.26, 5.07, 2.67],
+      p75: 1518,
+      rank: "good",
+    });
+    expect(result.metrics[0]["INP-SN"]).toEqual({
+      histogram: [92.49, 6.37, 1.14],
+      p75: 107,
+      rank: "good",
+    });
+
+    // experimental variants must not feed minimalGood (stable CWV only)
+    expect(result.metrics[0].minimalGood).toBe(91.25);
+
+    // -SN columns line up after the stable defaults, before other opt-ins
+    expect(Object.keys(result.metrics[0])).toEqual([
+      "url",
+      "CLS",
+      "FCP",
+      "LCP",
+      "TTFB",
+      "INP",
+      "RTT",
+      "CLS-SN",
+      "LCP-SN",
+      "INP-SN",
+      "minimalGood",
+    ]);
+  });
+
+  test("should convert experimental ad metrics as p75 only", () => {
+    const mockData = [
+      {
+        key: {
+          url: "https://allegro.pl",
+          formFactor: "PHONE",
+        },
+        collectionPeriod: {
+          firstDate: { year: 2026, month: 9, day: 14 },
+          lastDate: { year: 2026, month: 10, day: 11 },
+        },
+        metrics: {
+          experimental_ad_count: { percentiles: { p75: "0.33" } },
+          experimental_ad_density: { percentiles: { p75: 4 } },
+          experimental_ad_cpu: { percentiles: { p75: 321 } },
+          experimental_ad_kilobytes: { percentiles: { p75: 20 } },
+        },
+      },
+    ];
+
+    const result = convertData(mockData);
+
+    expect(result.metrics[0]["AD-COUNT"]).toEqual({
+      histogram: [],
+      p75: "0.33",
+      rank: "-",
+    });
+    expect(result.metrics[0]["AD-CPU"]).toEqual({
+      histogram: [],
+      p75: 321,
+      rank: "-",
+    });
+    expect(result.metrics[0]["AD-DENSITY"]).toEqual({
+      histogram: [],
+      p75: 4,
+      rank: "-",
+    });
+    expect(result.metrics[0]["AD-KB"]).toEqual({
+      histogram: [],
+      p75: 20,
+      rank: "-",
+    });
+  });
+
   test("should ignore metrics unknown to kruk", () => {
     const mockData = [
       {
@@ -268,10 +405,23 @@ describe("resolveMetrics", () => {
     ]);
   });
 
+  test("should resolve experimental metric abbreviations and full names", () => {
+    expect(resolveMetrics(["LCP-SN", "experimental_ad_count"])).toEqual([
+      "experimental_largest_contentful_paint_with_softnavs",
+      "experimental_ad_count",
+    ]);
+  });
+
   test("should deduplicate metrics", () => {
     expect(resolveMetrics(["CLS", "cumulative_layout_shift"])).toEqual([
       "cumulative_layout_shift",
     ]);
+    expect(
+      resolveMetrics([
+        "INP-SN",
+        "experimental_interaction_to_next_paint_with_softnavs",
+      ]),
+    ).toEqual(["experimental_interaction_to_next_paint_with_softnavs"]);
   });
 
   test("should throw for unknown metric", () => {

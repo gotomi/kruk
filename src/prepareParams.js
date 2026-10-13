@@ -5,6 +5,7 @@ export function prepareParams(argv) {
     formFactor: argv.formFactor,
     origin: argv.checkOrigin || false,
     history: argv.history || false,
+    experimental: argv.experimental || false,
   };
 
   if (argv.metrics) {

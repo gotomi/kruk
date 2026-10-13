@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-10-13
+
+### Added
+
+- `--experimental` flag to include the experimental Core Web Vitals variants that cover soft navigations reported by SPA sites, alongside the stable metrics for easy comparison. Also available programmatically via `params.experimental`. Applies to standard and `--history` queries alike; in raw history JSON, periods without data appear as `"NaN"` densities and `null` p75s.
+- Support for the experimental soft-navigation metrics, opt-in via `--experimental` or `--metrics`:
+  - `CLS-SN` (experimental Cumulative Layout Shift with softnavs)
+  - `LCP-SN` (experimental Largest Contentful Paint with softnavs)
+  - `INP-SN` (experimental Interaction to Next Paint with softnavs)
+  - They use the same good/average/poor thresholds as their stable counterparts and do not affect the `minimalGood` ranking, which stays based on stable Core Web Vitals.
+- Support for the experimental ad metrics, opt-in via `--metrics`: `AD-COUNT`, `AD-DENSITY`, `AD-CPU`, `AD-KB` (p75 only, no published thresholds).
+
+### Changed
+
+- Dependency updates: `googleapis` ^182 → ^185, `nock` ^14 → ^15, and dev tooling (`eslint`, `eslint-plugin-prettier`, `globals`).
+
 ## [0.5.0] - 2026-09-29
 
 ### Added
