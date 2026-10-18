@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-10-18
+
+### Changed
+
+- `runQuery` calls the CrUX REST API directly with `fetch` instead of going through the `googleapis` client. Parameters and the returned data shape are unchanged; failed requests throw an `Error` with the API's `error.message` plus `params` (request query params, never containing the key) and `errors` (the API's error details) attached for consumers that log them.
+- Removed the `googleapis` dependency. Installs are now far smaller and the library runs in standards-only runtimes such as Cloudflare Workers.
+
 ## [0.6.0] - 2026-10-13
 
 ### Added

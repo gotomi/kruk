@@ -1,6 +1,6 @@
 {
   "name": "kruk",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Command Line Tool for CrUX Rest API",
   "repository": {
     "type": "git",
@@ -39,7 +39,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "commander": "^15.0.0",
-    "googleapis": "^185.0.0",
     "prepend-http": "4.0.0",
     "table": "^6.9.0"
   },

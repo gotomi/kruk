@@ -1,4 +1,3 @@
-import { google } from "googleapis";
 import {
   convertData,
   defaultMetrics,
@@ -6,15 +5,30 @@ import {
 } from "./crux-convert.js";
 import prependHttp from "prepend-http";
 
+const CRUX_API_URL = "https://chromeuxreport.googleapis.com/v1";
+
 export async function runQuery(API_KEY, cruxQueryParams, history = false) {
-  const crux = google.chromeuxreport({
-    version: "v1",
-    auth: API_KEY,
+  const endpoint = history
+    ? "records:queryHistoryRecord"
+    : "records:queryRecord";
+  const url = `${CRUX_API_URL}/${endpoint}?key=${encodeURIComponent(API_KEY)}`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(cruxQueryParams),
   });
-  const res = history
-    ? await crux.records.queryHistoryRecord(cruxQueryParams)
-    : await crux.records.queryRecord(cruxQueryParams);
-  return res.data;
+  const data = await response.json();
+
+  if (!response.ok) {
+    const error = new Error(
+      data?.error?.message ?? `CrUX API request failed (${response.status})`,
+    );
+    error.params = cruxQueryParams;
+    error.errors = data?.error?.errors;
+    throw error;
+  }
+
+  return data;
 }
 
 export function buildQueryParams(params, url) {
@@ -47,8 +61,8 @@ export function buildQueryParams(params, url) {
 }
 
 function handleErrors(error) {
-  delete error.config.params.key;
-  console.log({ params: error.config.params, errors: error.errors });
+  // the API key travels in the URL only and never in error.params
+  console.log({ params: error.params, errors: error.errors ?? error.message });
 }
 
 export async function getReports(urls, API_KEY, params, groupByMetric = false) {
