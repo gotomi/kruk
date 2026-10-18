@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1-beta.0] - 2026-10-18
+
+### Changed
+
+- npm publishing now uses trusted publishing (OIDC) from GitHub Actions instead of a long-lived access token; the release workflow runs on Node 24 with a current npm. Follows npm v12 security defaults and the 2FA-bypass token deprecation. No functional changes to the CLI.
+
 ## [0.7.0] - 2026-10-18
 
 ### Changed
