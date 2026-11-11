@@ -29,11 +29,15 @@ const metricsMeta = {
     abbr: "LCP-RD",
     rank: false,
   },
-  // experimental Core Web Vitals variants that include soft navigations;
+  // experimental metric variants that include soft navigations;
   // same thresholds as their stable counterparts
   experimental_cumulative_layout_shift_with_softnavs: {
     range: [0.1, 0.25],
     abbr: "CLS-SN",
+  },
+  experimental_first_contentful_paint_with_softnavs: {
+    range: [1800, 3000],
+    abbr: "FCP-SN",
   },
   experimental_largest_contentful_paint_with_softnavs: {
     range: [2500, 4000],
@@ -42,6 +46,10 @@ const metricsMeta = {
   experimental_interaction_to_next_paint_with_softnavs: {
     range: [200, 500],
     abbr: "INP-SN",
+  },
+  experimental_navigation_types_with_softnavs: {
+    abbr: "NAV_TYPES-SN",
+    type: "fractions",
   },
   // experimental ad metrics, p75 only, no published thresholds
   experimental_ad_count: { abbr: "AD-COUNT", rank: false },
@@ -70,8 +78,10 @@ const CoreWebVitals = [
 // --experimental / params.experimental; ad metrics stay opt-in via --metrics
 const experimentalMetrics = [
   "experimental_cumulative_layout_shift_with_softnavs",
+  "experimental_first_contentful_paint_with_softnavs",
   "experimental_largest_contentful_paint_with_softnavs",
   "experimental_interaction_to_next_paint_with_softnavs",
+  "experimental_navigation_types_with_softnavs",
 ];
 
 function abbr(metric) {

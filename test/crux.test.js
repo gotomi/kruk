@@ -115,11 +115,13 @@ describe("buildQueryParams", () => {
       "https://example.com",
     );
 
-    // the explicit selection keeps its position, the rest of the trio follows
+    // the explicit selection keeps its position, the rest of the set follows
     expect(params.metrics).toEqual([
       "experimental_largest_contentful_paint_with_softnavs",
       "experimental_cumulative_layout_shift_with_softnavs",
+      "experimental_first_contentful_paint_with_softnavs",
       "experimental_interaction_to_next_paint_with_softnavs",
+      "experimental_navigation_types_with_softnavs",
     ]);
   });
 

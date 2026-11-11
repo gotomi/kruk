@@ -229,6 +229,14 @@ describe("convertData", () => {
               { start: "0.25", density: 0.0179 },
             ],
           },
+          experimental_first_contentful_paint_with_softnavs: {
+            percentiles: { p75: 1400 },
+            histogram: [
+              { start: 0, end: 1800, density: 0.9032 },
+              { start: 1800, end: 3000, density: 0.0711 },
+              { start: 3000, density: 0.0257 },
+            ],
+          },
           experimental_largest_contentful_paint_with_softnavs: {
             percentiles: { p75: 1518 },
             histogram: [
@@ -245,6 +253,14 @@ describe("convertData", () => {
               { start: 500, density: 0.0114 },
             ],
           },
+          experimental_navigation_types_with_softnavs: {
+            fractions: {
+              Navigate: 0.5017,
+              Soft: 0.4254,
+              Reload: 0.0527,
+              Prerender: 0.0202,
+            },
+          },
         },
       },
     ];
@@ -256,6 +272,11 @@ describe("convertData", () => {
       p75: "0.00",
       rank: "good",
     });
+    expect(result.metrics[0]["FCP-SN"]).toEqual({
+      histogram: [90.32, 7.11, 2.57],
+      p75: 1400,
+      rank: "good",
+    });
     expect(result.metrics[0]["LCP-SN"]).toEqual({
       histogram: [92.26, 5.07, 2.67],
       p75: 1518,
@@ -265,6 +286,16 @@ describe("convertData", () => {
       histogram: [92.49, 6.37, 1.14],
       p75: 107,
       rank: "good",
+    });
+    expect(result.metrics[0]["NAV_TYPES-SN"]).toEqual({
+      fractions: {
+        Navigate: 50.17,
+        Soft: 42.54,
+        Reload: 5.27,
+        Prerender: 2.02,
+      },
+      p75: null,
+      rank: "-",
     });
 
     // experimental variants must not feed minimalGood (stable CWV only)
@@ -280,8 +311,10 @@ describe("convertData", () => {
       "INP",
       "RTT",
       "CLS-SN",
+      "FCP-SN",
       "LCP-SN",
       "INP-SN",
+      "NAV_TYPES-SN",
       "minimalGood",
     ]);
   });
@@ -409,6 +442,10 @@ describe("resolveMetrics", () => {
     expect(resolveMetrics(["LCP-SN", "experimental_ad_count"])).toEqual([
       "experimental_largest_contentful_paint_with_softnavs",
       "experimental_ad_count",
+    ]);
+    expect(resolveMetrics(["FCP-SN", "NAV_TYPES-SN"])).toEqual([
+      "experimental_first_contentful_paint_with_softnavs",
+      "experimental_navigation_types_with_softnavs",
     ]);
   });
 

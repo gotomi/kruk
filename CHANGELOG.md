@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-11-11
+
+### Added
+
+- Support for the experimental soft-navigation metrics added to the CrUX API in the November 2026 release, included by `--experimental` (and still opt-in via `--metrics`):
+  - `FCP-SN` (experimental First Contentful Paint with softnavs) — same thresholds as FCP
+  - `NAV_TYPES-SN` (experimental Navigation Types with softnavs) — fraction of navigations per type, including soft navigations
+
 ## [0.7.1-beta.0] - 2026-10-18
 
 ### Changed

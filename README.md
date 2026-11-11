@@ -28,7 +28,7 @@ kruk --key YOUR_API_KEY --urls URL1,URL2 [options]
   - 'ALL_FORM_FACTORS' queries the aggregated record across all form factors (and additionally returns the `FORM_FACTORS` metric)
 - `--checkOrigin`: Get data for the entire origin instead of specific URLs
 - `--history`: Use CrUX history API to get historical data
-- `--experimental`: Include the experimental Core Web Vitals with soft navigations (`CLS-SN`, `LCP-SN`, `INP-SN`) alongside the stable metrics, to compare hard-navigation vs soft-navigation (SPA) values
+- `--experimental`: Include the experimental metrics with soft navigations (`CLS-SN`, `FCP-SN`, `LCP-SN`, `INP-SN`, `NAV_TYPES-SN`) alongside the stable metrics, to compare hard-navigation vs soft-navigation (SPA) values
 - `--metrics`: Comma-separated metrics to request. Accepts abbreviations (e.g. `CLS`, `LCP-TTFB`, `NAV_TYPES`) or full CrUX API metric names. Default: `CLS,FCP,LCP,TTFB,INP,RTT`
 - `--periods`: Number of collection periods for `--history` queries (1-40, default: 25)
 - `--output`: Output format (default: 'table')
@@ -99,7 +99,8 @@ The LCP subpart metrics report p75 only and have no good/average/poor ranking (n
 
 Experimental metrics (opt-in via `--experimental` or `--metrics`):
 
-- CLS-SN / LCP-SN / INP-SN (experimental CWV with soft navigations) — Core Web Vitals variants that include soft navigations reported by SPA sites, with the same thresholds as their stable counterparts
+- CLS-SN / FCP-SN / LCP-SN / INP-SN (experimental CWV and FCP with soft navigations) — metric variants that include soft navigations reported by SPA sites, with the same thresholds as their stable counterparts
+- NAV_TYPES-SN (experimental Navigation Types with soft navigations) — fraction of navigations per type, including soft navigations
 - AD-COUNT (Ad Count), AD-DENSITY (Ad Density), AD-CPU (Ad CPU), AD-KB (Ad Kilobytes) — experimental ad metrics, p75 only
 
 Experimental metrics are reported by Chrome as experimental and may change or be removed; origins with little soft-navigation or ad traffic may not have them at all (the column is then omitted). They are also available in the CrUX BigQuery dataset, which kruk does not query — kruk uses the CrUX REST API.
@@ -146,7 +147,7 @@ async function fetchCruxData() {
     formFactor: "PHONE", // optional
     origin: false, // optional, set true for origin-level data
     history: false, // optional, set true for historical data
-    experimental: false, // optional, set true to include soft-navigation CWV variants (CLS-SN, LCP-SN, INP-SN)
+    experimental: false, // optional, set true to include soft-navigation variants (CLS-SN, FCP-SN, LCP-SN, INP-SN, NAV_TYPES-SN)
     metrics: ["cumulative_layout_shift", "navigation_types"], // optional, full metric names
     periods: 12, // optional, collection periods for history queries (1-40)
   };

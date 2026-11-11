@@ -46,7 +46,7 @@ program
   .addOption(
     new Option(
       "--experimental",
-      "include experimental Core Web Vitals with soft navigations (CLS-SN, LCP-SN, INP-SN) alongside stable metrics",
+      "include experimental metrics with soft navigations (CLS-SN, FCP-SN, LCP-SN, INP-SN, NAV_TYPES-SN) alongside stable metrics",
     ),
   )
   .addOption(
